@@ -1,5 +1,5 @@
-
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { CryptoAsset } from '../store/cryptoSlice';
 import { formatCurrency, formatLargeNumber, formatPercentage, getPercentageColorClass } from '../utils/formatters';
 import MiniChart from './MiniChart';
@@ -10,6 +10,7 @@ interface CryptoTableRowProps {
 }
 
 const CryptoTableRow: React.FC<CryptoTableRowProps> = ({ asset, lastUpdatedField }) => {
+  const navigate = useNavigate();
   const [highlightPrice, setHighlightPrice] = useState(false);
   const [highlightVolume, setHighlightVolume] = useState(false);
   const [highlightPriceChange, setHighlightPriceChange] = useState(false);
@@ -51,7 +52,10 @@ const CryptoTableRow: React.FC<CryptoTableRowProps> = ({ asset, lastUpdatedField
   }, [asset.priceChange, lastUpdatedField]);
 
   return (
-    <tr className="border-b border-border hover:bg-secondary/50 transition-colors">
+    <tr 
+      className="border-b border-border hover:bg-secondary/50 transition-colors cursor-pointer" 
+      onClick={() => navigate(`/coin/${asset.id}`)}
+    >
       <td className="p-3 text-left">{asset.rank}</td>
       <td className="p-3 text-left">
         <div className="flex items-center">

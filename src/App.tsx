@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -8,6 +7,7 @@ import { Provider } from "react-redux";
 import { store } from "./store/store";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import CoinDetail from "./pages/CoinDetail";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +21,7 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/coin/:id" element={<CoinDetail />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

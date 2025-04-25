@@ -1,5 +1,5 @@
-
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { CryptoAsset } from '../store/cryptoSlice';
 import { formatCurrency, formatLargeNumber, formatPercentage, getPercentageColorClass } from '../utils/formatters';
 import MiniChart from './MiniChart';
@@ -10,11 +10,15 @@ interface CryptoCardProps {
 }
 
 const CryptoCard: React.FC<CryptoCardProps> = ({ asset, lastUpdatedField }) => {
+  const navigate = useNavigate();
   // Determine the 7-day trend
   const sevenDayTrend = asset.priceChange.sevenDays >= 0 ? 'up' : 'down';
 
   return (
-    <div className="bg-card rounded-lg border border-border p-4 mb-4">
+    <div 
+      className="bg-card rounded-lg border border-border p-4 mb-4 cursor-pointer hover:bg-secondary/50 transition-colors"
+      onClick={() => navigate(`/coin/${asset.id}`)}
+    >
       <div className="flex justify-between items-center mb-3">
         <div className="flex items-center">
           <span className="text-muted-foreground mr-2">#{asset.rank}</span>
