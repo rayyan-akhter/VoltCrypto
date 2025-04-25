@@ -1,10 +1,12 @@
 
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectAssetById } from '../store/cryptoSlice';
 import { RootState } from '../store/store';
 import { ChartContainer } from "@/components/ui/chart";
+import { ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   AreaChart,
   Area,
@@ -32,13 +34,51 @@ const CoinDetail = () => {
   }));
 
   return (
-    <div className="container mx-auto p-4 space-y-6">
+    <div className="container mx-auto p-4 space-y-8">
       <div className="flex items-center gap-4">
-        <img src={asset.logo} alt={asset.name} className="w-12 h-12" />
-        <div>
-          <h1 className="text-2xl font-bold">{asset.name}</h1>
-          <p className="text-muted-foreground">{asset.symbol}</p>
+        <Link to="/">
+          <Button variant="outline" size="icon">
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+        </Link>
+        <div className="flex items-center gap-4">
+          <img src={asset.logo} alt={asset.name} className="w-12 h-12" />
+          <div>
+            <h1 className="text-2xl font-bold">{asset.name}</h1>
+            <p className="text-muted-foreground">{asset.symbol}</p>
+          </div>
         </div>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-3 mb-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Price</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-semibold">{formatCurrency(asset.price)}</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>24h Change</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className={`text-2xl font-semibold ${getPercentageColorClass(asset.priceChange.oneDay)}`}>
+              {formatPercentage(asset.priceChange.oneDay)}
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Market Cap</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-semibold">{formatCurrency(asset.marketCap)}</p>
+          </CardContent>
+        </Card>
       </div>
 
       <Card>
@@ -85,37 +125,6 @@ const CoinDetail = () => {
           </div>
         </CardContent>
       </Card>
-
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <Card>
-          <CardHeader>
-            <CardTitle>Price</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-semibold">{formatCurrency(asset.price)}</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>24h Change</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className={`text-2xl font-semibold ${getPercentageColorClass(asset.priceChange.oneDay)}`}>
-              {formatPercentage(asset.priceChange.oneDay)}
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Market Cap</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-semibold">{formatCurrency(asset.marketCap)}</p>
-          </CardContent>
-        </Card>
-      </div>
     </div>
   );
 };
