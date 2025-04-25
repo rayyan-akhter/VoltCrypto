@@ -65,7 +65,7 @@ const CoinDetail = () => {
                         <div className="bg-background border border-border p-2 rounded-lg shadow">
                           <p className="font-medium">{payload[0].payload.timestamp}</p>
                           <p className="text-muted-foreground">
-                            Price: {formatCurrency(payload[0].value)}
+                            Price: {formatCurrency(Number(payload[0].value))}
                           </p>
                         </div>
                       );
