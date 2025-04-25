@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CryptoAsset } from '../store/cryptoSlice';
@@ -19,7 +20,6 @@ const CryptoTableRow: React.FC<CryptoTableRowProps> = ({ asset, lastUpdatedField
   
   // Determine the 7-day trend
   const sevenDayTrend = asset.priceChange.sevenDays >= 0 ? 'up' : 'down';
-  const fallbackImageUrl = "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9";
   
   // Effect to flash price updates
   useEffect(() => {
@@ -63,20 +63,14 @@ const CryptoTableRow: React.FC<CryptoTableRowProps> = ({ asset, lastUpdatedField
       <td className="p-3 text-left">
         <div className="flex items-center">
           {imageError ? (
-            <img 
-              src={fallbackImageUrl}
-              alt={asset.name}
-              className="w-6 h-6 rounded-full mr-2 object-cover"
-              onError={() => {
-                console.log('Fallback image failed to load for:', asset.name);
-                setImageError(false); // Reset to show the icon
-              }}
-            />
+            <div className="w-6 h-6 bg-secondary flex items-center justify-center rounded-full mr-2">
+              <Coins className="w-4 h-4 text-primary" />
+            </div>
           ) : (
             <img 
               src={asset.logo} 
               alt={asset.name} 
-              className="w-6 h-6 rounded-full mr-2 object-cover" 
+              className="w-6 h-6 mr-2" 
               onError={() => setImageError(true)}
             />
           )}

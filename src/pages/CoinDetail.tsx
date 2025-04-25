@@ -23,7 +23,6 @@ const CoinDetail = () => {
   const { id } = useParams();
   const asset = useSelector((state: RootState) => selectAssetById(state, id!));
   const [imageError, setImageError] = useState(false);
-  const fallbackImageUrl = "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9";
 
   if (!asset) {
     return <div className="p-4">Coin not found</div>;
@@ -45,20 +44,14 @@ const CoinDetail = () => {
         </Link>
         <div className="flex items-center gap-4">
           {imageError ? (
-            <img 
-              src={fallbackImageUrl}
-              alt={asset.name}
-              className="w-12 h-12 rounded-full object-cover"
-              onError={() => {
-                console.log('Fallback image failed to load for:', asset.name);
-                setImageError(false);
-              }}
-            />
+            <div className="w-12 h-12 bg-secondary flex items-center justify-center rounded-full">
+              <Coins className="w-6 h-6 text-primary" />
+            </div>
           ) : (
             <img 
               src={asset.logo} 
               alt={asset.name} 
-              className="w-12 h-12 rounded-full object-cover" 
+              className="w-12 h-12" 
               onError={() => setImageError(true)}
             />
           )}
