@@ -1,8 +1,10 @@
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CryptoAsset } from '../store/cryptoSlice';
 import { formatCurrency, formatLargeNumber, formatPercentage, getPercentageColorClass } from '../utils/formatters';
 import MiniChart from './MiniChart';
+import { Coins } from 'lucide-react';
 
 interface CryptoTableRowProps {
   asset: CryptoAsset;
@@ -14,6 +16,7 @@ const CryptoTableRow: React.FC<CryptoTableRowProps> = ({ asset, lastUpdatedField
   const [highlightPrice, setHighlightPrice] = useState(false);
   const [highlightVolume, setHighlightVolume] = useState(false);
   const [highlightPriceChange, setHighlightPriceChange] = useState(false);
+  const [imageError, setImageError] = useState(false);
   
   // Determine the 7-day trend
   const sevenDayTrend = asset.priceChange.sevenDays >= 0 ? 'up' : 'down';
@@ -59,7 +62,18 @@ const CryptoTableRow: React.FC<CryptoTableRowProps> = ({ asset, lastUpdatedField
       <td className="p-3 text-left">{asset.rank}</td>
       <td className="p-3 text-left">
         <div className="flex items-center">
-          <img src={asset.logo} alt={asset.name} className="w-6 h-6 mr-2" />
+          {imageError ? (
+            <div className="w-6 h-6 bg-secondary flex items-center justify-center rounded-full mr-2">
+              <Coins className="w-4 h-4 text-primary" />
+            </div>
+          ) : (
+            <img 
+              src={asset.logo} 
+              alt={asset.name} 
+              className="w-6 h-6 mr-2" 
+              onError={() => setImageError(true)}
+            />
+          )}
           <span>{asset.name}</span>
           <span className="ml-2 text-muted-foreground text-xs">{asset.symbol}</span>
         </div>

@@ -1,8 +1,10 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CryptoAsset } from '../store/cryptoSlice';
 import { formatCurrency, formatLargeNumber, formatPercentage, getPercentageColorClass } from '../utils/formatters';
 import MiniChart from './MiniChart';
+import { Coins } from 'lucide-react';
 
 interface CryptoCardProps {
   asset: CryptoAsset;
@@ -11,6 +13,7 @@ interface CryptoCardProps {
 
 const CryptoCard: React.FC<CryptoCardProps> = ({ asset, lastUpdatedField }) => {
   const navigate = useNavigate();
+  const [imageError, setImageError] = useState(false);
   // Determine the 7-day trend
   const sevenDayTrend = asset.priceChange.sevenDays >= 0 ? 'up' : 'down';
 
@@ -22,7 +25,18 @@ const CryptoCard: React.FC<CryptoCardProps> = ({ asset, lastUpdatedField }) => {
       <div className="flex justify-between items-center mb-3">
         <div className="flex items-center">
           <span className="text-muted-foreground mr-2">#{asset.rank}</span>
-          <img src={asset.logo} alt={asset.name} className="w-6 h-6 mr-2" />
+          {imageError ? (
+            <div className="w-6 h-6 bg-secondary flex items-center justify-center rounded-full mr-2">
+              <Coins className="w-4 h-4 text-primary" />
+            </div>
+          ) : (
+            <img 
+              src={asset.logo} 
+              alt={asset.name} 
+              className="w-6 h-6 mr-2" 
+              onError={() => setImageError(true)}
+            />
+          )}
           <div>
             <span className="font-medium">{asset.name}</span>
             <span className="ml-2 text-muted-foreground text-xs">{asset.symbol}</span>

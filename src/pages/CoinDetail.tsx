@@ -1,11 +1,11 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectAssetById } from '../store/cryptoSlice';
 import { RootState } from '../store/store';
 import { ChartContainer } from "@/components/ui/chart";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Coins } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   AreaChart,
@@ -22,6 +22,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 const CoinDetail = () => {
   const { id } = useParams();
   const asset = useSelector((state: RootState) => selectAssetById(state, id!));
+  const [imageError, setImageError] = useState(false);
 
   if (!asset) {
     return <div className="p-4">Coin not found</div>;
@@ -42,7 +43,18 @@ const CoinDetail = () => {
           </Button>
         </Link>
         <div className="flex items-center gap-4">
-          <img src={asset.logo} alt={asset.name} className="w-12 h-12" />
+          {imageError ? (
+            <div className="w-12 h-12 bg-secondary flex items-center justify-center rounded-full">
+              <Coins className="w-6 h-6 text-primary" />
+            </div>
+          ) : (
+            <img 
+              src={asset.logo} 
+              alt={asset.name} 
+              className="w-12 h-12" 
+              onError={() => setImageError(true)}
+            />
+          )}
           <div>
             <h1 className="text-2xl font-bold">{asset.name}</h1>
             <p className="text-muted-foreground">{asset.symbol}</p>
