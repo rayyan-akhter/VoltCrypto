@@ -28,3 +28,7 @@ This project is built with:
 
 
 [Watch Demo Video](https://drive.google.com/file/d/1dt0z_FEiZZ8lz-oLZWUISKhCaaMUzogS/view?usp=drive_link)
+
+## Deployed link
+
+[URL](https://voltcrypto.netlify.app/)
