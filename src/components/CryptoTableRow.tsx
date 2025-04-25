@@ -1,29 +1,36 @@
-
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { CryptoAsset } from '../store/cryptoSlice';
-import { formatCurrency, formatLargeNumber, formatPercentage, getPercentageColorClass } from '../utils/formatters';
-import MiniChart from './MiniChart';
-import { Coins } from 'lucide-react';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { CryptoAsset } from "../store/cryptoSlice";
+import {
+  formatCurrency,
+  formatLargeNumber,
+  formatPercentage,
+  getPercentageColorClass,
+} from "../utils/formatters";
+import MiniChart from "./MiniChart";
+import { Coins } from "lucide-react";
 
 interface CryptoTableRowProps {
   asset: CryptoAsset;
   lastUpdatedField: string | null;
 }
 
-const CryptoTableRow: React.FC<CryptoTableRowProps> = ({ asset, lastUpdatedField }) => {
+const CryptoTableRow: React.FC<CryptoTableRowProps> = ({
+  asset,
+  lastUpdatedField,
+}) => {
   const navigate = useNavigate();
   const [highlightPrice, setHighlightPrice] = useState(false);
   const [highlightVolume, setHighlightVolume] = useState(false);
   const [highlightPriceChange, setHighlightPriceChange] = useState(false);
   const [imageError, setImageError] = useState(false);
-  
+
   // Determine the 7-day trend
-  const sevenDayTrend = asset.priceChange.sevenDays >= 0 ? 'up' : 'down';
-  
+  const sevenDayTrend = asset.priceChange.sevenDays >= 0 ? "up" : "down";
+
   // Effect to flash price updates
   useEffect(() => {
-    if (lastUpdatedField === 'price') {
+    if (lastUpdatedField === "price") {
       setHighlightPrice(true);
       const timer = setTimeout(() => {
         setHighlightPrice(false);
@@ -31,10 +38,10 @@ const CryptoTableRow: React.FC<CryptoTableRowProps> = ({ asset, lastUpdatedField
       return () => clearTimeout(timer);
     }
   }, [asset.price, lastUpdatedField]);
-  
+
   // Effect to flash volume updates
   useEffect(() => {
-    if (lastUpdatedField === 'volume') {
+    if (lastUpdatedField === "volume") {
       setHighlightVolume(true);
       const timer = setTimeout(() => {
         setHighlightVolume(false);
@@ -42,10 +49,10 @@ const CryptoTableRow: React.FC<CryptoTableRowProps> = ({ asset, lastUpdatedField
       return () => clearTimeout(timer);
     }
   }, [asset.volume24h, lastUpdatedField]);
-  
+
   // Effect to flash percentage changes
   useEffect(() => {
-    if (lastUpdatedField === 'priceChange') {
+    if (lastUpdatedField === "priceChange") {
       setHighlightPriceChange(true);
       const timer = setTimeout(() => {
         setHighlightPriceChange(false);
@@ -55,8 +62,8 @@ const CryptoTableRow: React.FC<CryptoTableRowProps> = ({ asset, lastUpdatedField
   }, [asset.priceChange, lastUpdatedField]);
 
   return (
-    <tr 
-      className="border-b border-border hover:bg-secondary/50 transition-colors cursor-pointer" 
+    <tr
+      className="border-b border-border hover:bg-secondary/50 transition-colors cursor-pointer"
       onClick={() => navigate(`/coin/${asset.id}`)}
     >
       <td className="p-3 text-left">{asset.rank}</td>
@@ -67,40 +74,71 @@ const CryptoTableRow: React.FC<CryptoTableRowProps> = ({ asset, lastUpdatedField
               <Coins className="w-4 h-4 text-primary" />
             </div>
           ) : (
-            <img 
-              src={asset.logo} 
-              alt={asset.name} 
-              className="w-6 h-6 mr-2" 
+            <img
+              src={asset.logo}
+              alt={asset.name}
+              className="w-6 h-6 mr-2"
               onError={() => setImageError(true)}
+              
             />
           )}
           <span>{asset.name}</span>
-          <span className="ml-2 text-muted-foreground text-xs">{asset.symbol}</span>
+          <span className="ml-2 text-muted-foreground text-xs">
+            {asset.symbol}
+          </span>
         </div>
       </td>
-      <td className={`p-3 text-right ${highlightPrice ? 'animate-pulse-price' : ''}`}>
+      <td
+        className={`p-3 text-right ${
+          highlightPrice ? "animate-pulse-price" : ""
+        }`}
+      >
         {formatCurrency(asset.price)}
       </td>
-      <td className={`p-3 text-right ${highlightPriceChange ? 'animate-pulse-price' : ''} ${getPercentageColorClass(asset.priceChange.oneHour)}`}>
+      <td
+        className={`p-3 text-right ${
+          highlightPriceChange ? "animate-pulse-price" : ""
+        } ${getPercentageColorClass(asset.priceChange.oneHour)}`}
+      >
         {formatPercentage(asset.priceChange.oneHour)}
       </td>
-      <td className={`p-3 text-right ${highlightPriceChange ? 'animate-pulse-price' : ''} ${getPercentageColorClass(asset.priceChange.oneDay)}`}>
+      <td
+        className={`p-3 text-right ${
+          highlightPriceChange ? "animate-pulse-price" : ""
+        } ${getPercentageColorClass(asset.priceChange.oneDay)}`}
+      >
         {formatPercentage(asset.priceChange.oneDay)}
       </td>
-      <td className={`p-3 text-right ${highlightPriceChange ? 'animate-pulse-price' : ''} ${getPercentageColorClass(asset.priceChange.sevenDays)}`}>
+      <td
+        className={`p-3 text-right ${
+          highlightPriceChange ? "animate-pulse-price" : ""
+        } ${getPercentageColorClass(asset.priceChange.sevenDays)}`}
+      >
         {formatPercentage(asset.priceChange.sevenDays)}
       </td>
       <td className="p-3 text-right">
-        {formatCurrency(asset.marketCap)} <span className="text-xs text-muted-foreground">{formatLargeNumber(asset.marketCap)}</span>
+        {formatCurrency(asset.marketCap)}{" "}
+        <span className="text-xs text-muted-foreground">
+          {formatLargeNumber(asset.marketCap)}
+        </span>
       </td>
-      <td className={`p-3 text-right ${highlightVolume ? 'animate-pulse-price' : ''}`}>
-        {formatCurrency(asset.volume24h)} <span className="text-xs text-muted-foreground">{formatLargeNumber(asset.volume24h)}</span>
+      <td
+        className={`p-3 text-right ${
+          highlightVolume ? "animate-pulse-price" : ""
+        }`}
+      >
+        {formatCurrency(asset.volume24h)}{" "}
+        <span className="text-xs text-muted-foreground">
+          {formatLargeNumber(asset.volume24h)}
+        </span>
       </td>
       <td className="p-3 text-right">
-        {formatLargeNumber(asset.circulatingSupply)} <span className="text-xs text-muted-foreground">{asset.symbol}</span>
+        {formatLargeNumber(asset.circulatingSupply)}{" "}
+        <span className="text-xs text-muted-foreground">{asset.symbol}</span>
       </td>
       <td className="p-3 text-right">
-        {asset.maxSupply ? formatLargeNumber(asset.maxSupply) : '∞'} <span className="text-xs text-muted-foreground">{asset.symbol}</span>
+        {asset.maxSupply ? formatLargeNumber(asset.maxSupply) : "∞"}{" "}
+        <span className="text-xs text-muted-foreground">{asset.symbol}</span>
       </td>
       <td className="p-3 flex justify-center">
         <MiniChart data={asset.chartData} trend={sevenDayTrend} />

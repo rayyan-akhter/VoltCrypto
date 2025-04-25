@@ -28,7 +28,6 @@ const CoinDetail = () => {
     return <div className="p-4">Coin not found</div>;
   }
 
-  // Generate sample historical data from chart data
   const historicalData = asset.chartData.map((value, index) => ({
     timestamp: new Date(Date.now() - (asset.chartData.length - index) * 24 * 60 * 60 * 1000).toLocaleDateString(),
     price: value,
@@ -98,7 +97,7 @@ const CoinDetail = () => {
           <CardTitle>Price Chart</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="h-[400px] w-full">
+          <div className="h-full w-full">
             <ChartContainer config={{ price: { color: "#8B5CF6" } }}>
               <AreaChart data={historicalData}>
                 <defs>
