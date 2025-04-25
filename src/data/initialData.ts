@@ -1,0 +1,105 @@
+
+import { CryptoAsset } from '../store/cryptoSlice';
+
+// Helper to generate random chart data
+const generateChartData = (): number[] => {
+  return Array.from({ length: 7 }, () => Math.random() * 100 + 50);
+};
+
+export const initialCryptoData: CryptoAsset[] = [
+  {
+    id: 'bitcoin',
+    rank: 1,
+    name: 'Bitcoin',
+    symbol: 'BTC',
+    logo: 'https://cryptologos.cc/logos/bitcoin-btc-logo.svg',
+    price: 58342.35,
+    priceChange: {
+      oneHour: 0.5,
+      oneDay: 2.3,
+      sevenDays: -1.2,
+    },
+    marketCap: 1123456789000,
+    volume24h: 48765432100,
+    circulatingSupply: 19250000,
+    maxSupply: 21000000,
+    chartData: generateChartData(),
+    lastUpdated: new Date().toISOString(),
+  },
+  {
+    id: 'ethereum',
+    rank: 2,
+    name: 'Ethereum',
+    symbol: 'ETH',
+    logo: 'https://cryptologos.cc/logos/ethereum-eth-logo.svg',
+    price: 3123.45,
+    priceChange: {
+      oneHour: -0.2,
+      oneDay: 1.7,
+      sevenDays: 5.4,
+    },
+    marketCap: 387654321000,
+    volume24h: 25987654300,
+    circulatingSupply: 120450000,
+    maxSupply: null,
+    chartData: generateChartData(),
+    lastUpdated: new Date().toISOString(),
+  },
+  {
+    id: 'tether',
+    rank: 3,
+    name: 'Tether',
+    symbol: 'USDT',
+    logo: 'https://cryptologos.cc/logos/tether-usdt-logo.svg',
+    price: 1.00,
+    priceChange: {
+      oneHour: 0.01,
+      oneDay: -0.03,
+      sevenDays: 0.02,
+    },
+    marketCap: 98765432100,
+    volume24h: 64738291000,
+    circulatingSupply: 98765432100,
+    maxSupply: null,
+    chartData: generateChartData().map(() => 99.5 + Math.random()),
+    lastUpdated: new Date().toISOString(),
+  },
+  {
+    id: 'bnb',
+    rank: 4,
+    name: 'BNB',
+    symbol: 'BNB',
+    logo: 'https://cryptologos.cc/logos/bnb-bnb-logo.svg',
+    price: 351.78,
+    priceChange: {
+      oneHour: 1.1,
+      oneDay: -0.8,
+      sevenDays: 3.5,
+    },
+    marketCap: 56789012300,
+    volume24h: 2143658700,
+    circulatingSupply: 161337536,
+    maxSupply: 165116760,
+    chartData: generateChartData(),
+    lastUpdated: new Date().toISOString(),
+  },
+  {
+    id: 'solana',
+    rank: 5,
+    name: 'Solana',
+    symbol: 'SOL',
+    logo: 'https://cryptologos.cc/logos/solana-sol-logo.svg',
+    price: 124.56,
+    priceChange: {
+      oneHour: -1.3,
+      oneDay: 4.2,
+      sevenDays: 15.7,
+    },
+    marketCap: 43210987600,
+    volume24h: 3698521400,
+    circulatingSupply: 347123456,
+    maxSupply: 508180963,
+    chartData: generateChartData(),
+    lastUpdated: new Date().toISOString(),
+  },
+];
