@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CryptoAsset } from '../store/cryptoSlice';
@@ -14,8 +13,9 @@ interface CryptoCardProps {
 const CryptoCard: React.FC<CryptoCardProps> = ({ asset, lastUpdatedField }) => {
   const navigate = useNavigate();
   const [imageError, setImageError] = useState(false);
-  // Determine the 7-day trend
   const sevenDayTrend = asset.priceChange.sevenDays >= 0 ? 'up' : 'down';
+
+  const fallbackImageUrl = "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9";
 
   return (
     <div 
@@ -26,14 +26,20 @@ const CryptoCard: React.FC<CryptoCardProps> = ({ asset, lastUpdatedField }) => {
         <div className="flex items-center">
           <span className="text-muted-foreground mr-2">#{asset.rank}</span>
           {imageError ? (
-            <div className="w-6 h-6 bg-secondary flex items-center justify-center rounded-full mr-2">
-              <Coins className="w-4 h-4 text-primary" />
-            </div>
+            <img 
+              src={fallbackImageUrl}
+              alt={asset.name}
+              className="w-6 h-6 rounded-full mr-2 object-cover"
+              onError={() => {
+                console.log('Fallback image failed to load for:', asset.name);
+                setImageError(false); // Reset to show the icon
+              }}
+            />
           ) : (
             <img 
               src={asset.logo} 
               alt={asset.name} 
-              className="w-6 h-6 mr-2" 
+              className="w-6 h-6 rounded-full mr-2 object-cover" 
               onError={() => setImageError(true)}
             />
           )}
