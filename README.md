@@ -25,3 +25,6 @@ This project is built with:
 - Tailwind CSS
 
 <video controls src="Screen Recording 2025-04-25 162905.mp4" title="Title"></video>
+
+
+[Watch Demo Video](https://drive.google.com/file/d/1dt0z_FEiZZ8lz-oLZWUISKhCaaMUzogS/view?usp=drive_link)
